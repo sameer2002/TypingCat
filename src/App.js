@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { ThemeProvider } from './components/ThemeContext'; 
+import Navbar from "./components/Navbar";
+import Typingpage from "./components/Typingpage"
+import Footer from "./components/footer";
+import ScoreSummary from "./components/ScoreSummary"; 
+import LoginComponent from "./components/login"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App=()=>{
+    const [testCompleted, setTestCompleted] = useState(false);
+    const [wpm, setWpm] = useState(0);
+    const [accuracy, setAccuracy] = useState(0);
+    return(
+        <ThemeProvider>
+        <div >
+            <Navbar/>
+            {testCompleted 
+    ? <ScoreSummary wpm={wpm} accuracy={accuracy}/> 
+    : <Typingpage onTestEnd={(calculatedWpm, calculatedAccuracy) => {
+        setWpm(calculatedWpm);
+        setAccuracy(calculatedAccuracy);
+        setTestCompleted(true);
+    }} />
+}
+           <Footer/>
+           <LoginComponent/>
+           
+           
+        </div>
+        </ThemeProvider>
+        
+    )
 }
 
 export default App;
